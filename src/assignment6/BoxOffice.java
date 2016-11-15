@@ -14,12 +14,17 @@ public class BoxOffice implements Runnable {
 	
 	@Override
 	public void run() {
-		//System.out.println("num clients is " + numClients);
 		for(int i = 0; i < numClients; i++) {
 			int clientId = theater.getClientNum();
-			theater.buyTicket(id, clientId);
 			
+			try {
+				Thread.sleep(50); // give other box offices a chance to buy tickets
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			
+			theater.buyTicket(id, clientId);
+
 		}
 	}
-
 }

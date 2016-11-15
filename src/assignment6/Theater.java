@@ -146,20 +146,21 @@ public class Theater {
    * @return a ticket or null if a box office failed to reserve the seat
    */
 	public Ticket printTicket(String boxOfficeId, Seat seat, int client) {
-	//	synchronized(this) {
-			Ticket clientTicket = new Ticket(show, boxOfficeId, seat, client);
+		Ticket clientTicket = new Ticket(show, boxOfficeId, seat, client);
+		synchronized(this) {
 			System.out.println(clientTicket.toString());
 			
-			/*
+			
 			try {
-				Thread.sleep(500);
+				Thread.sleep(700);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			*/
+			
 			log.add(clientTicket);
-			return clientTicket;	
-		//}
+		}
+		return clientTicket;	
+
 	}
 
 	/*
@@ -181,14 +182,18 @@ public class Theater {
 	}
 	
 	public Ticket buyTicket(String boxOfficeId, int client) {
-		synchronized(this) {
+		Ticket purchasedTicket;
+		synchronized(this) { // put in this one, seats print in order but also sold in order of BX
 			Seat purchasedSeat = bestAvailableSeat();
+			
 			if(purchasedSeat == null) {
 				System.out.println("Sorry, we are sold out!");
 				return null;
 			}
-			return printTicket(boxOfficeId, purchasedSeat, client);
 			
+			purchasedTicket = printTicket(boxOfficeId, purchasedSeat, client);
 		}
+		return purchasedTicket;
+			
 	}
 }
