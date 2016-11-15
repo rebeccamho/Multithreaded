@@ -20,10 +20,10 @@ public class BookingClient {
 	private Theater theater;
 	private List<Thread> threads;
 	
-  /*
-   * @param office maps box office id to number of customers in line
-   * @param theater the theater where the show is playing
-   */
+	/*
+	 * @param office maps box office id to number of customers in line
+	 * @param theater the theater where the show is playing
+	 */
 	public BookingClient(Map<String, Integer> office, Theater theater) {
 		this.office = office;
 		this.theater = theater;
@@ -43,8 +43,7 @@ public class BookingClient {
 		Theater t = new Theater(3, 5, "Ouija");
 		
 		BookingClient booker = new BookingClient(o, t);
-		booker.simulate();
-	  
+		booker.simulate();	  
 	  
 	}
 	

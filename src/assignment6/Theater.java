@@ -65,7 +65,7 @@ public class Theater {
 		}
 	}
 
-  /*
+	/*
 	 * Represents a ticket purchased by a client
 	 */
 	static class Ticket {
@@ -100,13 +100,20 @@ public class Theater {
 		@Override
 		public String toString() {
 			String ticket = new String("-------------------------------\n| Show: " +
-				show + "                 |\n| Box Office ID: " + boxOfficeId + 
-				"          |\n| Seat: " + seat.toString());
-			for(int i = 0; i < 22-seat.toString().length(); i++) {
+				show);
+			for(int i = 0; i < 22-show.length(); i++) { // add variable # spaces after show
+				ticket = ticket + " ";
+			}
+			ticket = ticket + "|\n Box Office ID: " + boxOfficeId;
+			for(int i = 0; i < 14-boxOfficeId.length(); i++) { // add variable # spaces after box office id
+				ticket = ticket + " ";
+			}
+			ticket = ticket + "|\n| Seat: " + seat.toString();
+			for(int i = 0; i < 22-seat.toString().length(); i++) { // add variable # spaces after seat
 				ticket = ticket + " ";
 			}
 			ticket = ticket + "|\n| Client: " + Integer.toString(client);
-			for(int i = 0; i < 20-Integer.toString(client).length(); i++) {
+			for(int i = 0; i < 20-Integer.toString(client).length(); i++) { // add variable # spaces after client
 				ticket = ticket + " ";
 			}
 			ticket = ticket + "|\n-------------------------------\n";
@@ -129,10 +136,10 @@ public class Theater {
 	 * Calculates the best seat not yet reserved
 	 *
  	 * @return the best seat or null if theater is full
-   */
+ 	 */
 	public Seat bestAvailableSeat() {
 		synchronized(this) {
-			if(currentSeat == maxSeat) {
+			if(currentSeat == maxSeat) { // all seats are reserved
 				return null;
 			}
 			int rowNum = (currentSeat / numSeats) + 1;
@@ -145,11 +152,11 @@ public class Theater {
 
 	/*
 	 * Prints a ticket for the client after they reserve a seat
-   * Also prints the ticket to the console
+	 * Also prints the ticket to the console
 	 *
-   * @param seat a particular seat in the theater
-   * @return a ticket or null if a box office failed to reserve the seat
-   */
+	 * @param seat a particular seat in the theater
+	 * @return a ticket or null if a box office failed to reserve the seat
+	 */
 	public Ticket printTicket(String boxOfficeId, Seat seat, int client) {
 		Ticket clientTicket = new Ticket(show, boxOfficeId, seat, client);
 		synchronized(this) {
@@ -171,8 +178,8 @@ public class Theater {
 	/*
 	 * Lists all tickets sold for this theater in order of purchase
 	 *
-   * @return list of tickets sold
-   */
+	 * @return list of tickets sold
+	 */
 	public List<Ticket> getTransactionLog() {
 		//TODO: Implement this method
 		return log;
@@ -188,10 +195,10 @@ public class Theater {
 	
 	public Ticket buyTicket(String boxOfficeId, int client) {
 		Ticket purchasedTicket;
-		synchronized(this) { // put in this one, seats print in order but also sold in order of BX
+		synchronized(this) { 
 			Seat purchasedSeat = bestAvailableSeat();
 			
-			if(purchasedSeat == null) {
+			if(purchasedSeat == null) { // all seats already sold
 				System.out.println("Sorry, we are sold out!");
 				return null;
 			}
