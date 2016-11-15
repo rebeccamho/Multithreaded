@@ -101,10 +101,15 @@ public class Theater {
 		public String toString() {
 			String ticket = new String("-------------------------------\n| Show: " +
 				show + "                 |\n| Box Office ID: " + boxOfficeId + 
-				"          |\n| Seat: " + seat.toString() + "                    |\n" +
-				"| Client: " + client + "                   |\n" +
-				"-------------------------------\n");
-			
+				"          |\n| Seat: " + seat.toString());
+			for(int i = 0; i < 22-seat.toString().length(); i++) {
+				ticket = ticket + " ";
+			}
+			ticket = ticket + "|\n| Client: " + Integer.toString(client);
+			for(int i = 0; i < 20-Integer.toString(client).length(); i++) {
+				ticket = ticket + " ";
+			}
+			ticket = ticket + "|\n-------------------------------\n";
 			return ticket;
 			
 		}
