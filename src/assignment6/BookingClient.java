@@ -32,12 +32,11 @@ public class BookingClient {
 
   
 	public static void main(String[] args) {
-		  
 		Map<String, Integer> o = new HashMap<String, Integer>();
 		
 		o.put("BX1", 3);
 		o.put("BX3", 3);
-		o.put("BX2", 4);
+		o.put("BX2", 4); 
 		o.put("BX5", 3);
 		o.put("BX4", 3);	
 		Theater t = new Theater(3, 5, "Ouija");

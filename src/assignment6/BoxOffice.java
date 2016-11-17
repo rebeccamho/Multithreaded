@@ -9,16 +9,28 @@
 
 package assignment6;
 
+import assignment6.Theater.Seat;
+
 public class BoxOffice implements Runnable {
 
 	private Theater theater;
-	private Integer numClients;
+	private int numClients;
 	private String id;
 	
-	public BoxOffice(Theater theater, String id, Integer numClients) {
+	public BoxOffice(Theater theater, String id, int numClients) {
 		this.id = id;
 		this.theater = theater;
 		this.numClients = numClients;
+	}
+	
+	/*
+	 * Tries to buy a ticket for a certain seat at the theater.
+ 	 */
+	public void buyTicket(int clientId) {
+		synchronized(theater.lockBuyTicket) {
+			Seat purchasedSeat = theater.bestAvailableSeat();
+			theater.printTicket(id, purchasedSeat, clientId);
+		}
 	}
 	
 	@Override
@@ -32,8 +44,7 @@ public class BoxOffice implements Runnable {
 				e.printStackTrace();
 			}
 			
-			
-			theater.buyTicket(id, clientId); // process client buying ticket
+			buyTicket(clientId);
 						
 		}
 

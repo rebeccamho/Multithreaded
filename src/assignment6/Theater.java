@@ -21,10 +21,13 @@ public class Theater {
 	private int numRows;
 	private int numSeats;
 	private int clientNum;
+	
 	private Object lockClientNum;
 	private Object lockBestSeat;
-	private Object lockBuyTicket;
 	private Object lockPrintTicket;
+	public Object lockBuyTicket;
+
+	boolean soldOut;
 	
 	/*
 	 * Represents a seat in the theater
@@ -147,6 +150,7 @@ public class Theater {
 		lockBestSeat = new Object();
 		lockBuyTicket = new Object();
 		lockPrintTicket = new Object();
+		soldOut = false;
 	}
 
 	/*
@@ -176,6 +180,13 @@ public class Theater {
 	 */
 	public Ticket printTicket(String boxOfficeId, Seat seat, int client) {
 		synchronized(lockPrintTicket) {
+			if(soldOut) { return null; } // already printed sold out
+			if(seat == null) { // all seats already sold
+				System.out.println("Sorry, we are sold out!");
+				soldOut = true;
+				return null;
+			}
+			
 			Ticket clientTicket = new Ticket(show, boxOfficeId, seat, client);
 			System.out.println(clientTicket.toString()); // print ticket to console	
 			
@@ -214,26 +225,4 @@ public class Theater {
 		}
 	}
 	
-	/*
-	 * Processes the purchasing and printing of tickets.
-	 *
-	 * @boxOfficeId is the ID of the box office selling the ticket
-	 * @client is the ID of the client buying the ticket
-	 * @return the ticket purchased
-	 */
-	public Ticket buyTicket(String boxOfficeId, int client) {
-		Ticket purchasedTicket;
-		synchronized(lockBuyTicket) { 
-			Seat purchasedSeat = bestAvailableSeat();
-			
-			if(purchasedSeat == null) { // all seats already sold
-				System.out.println("Sorry, we are sold out!");
-				return null;
-			}
-			
-			purchasedTicket = printTicket(boxOfficeId, purchasedSeat, client);
-		}
-		return purchasedTicket;
-			
-	}
 }
