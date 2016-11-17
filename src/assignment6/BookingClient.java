@@ -39,12 +39,12 @@ public class BookingClient {
 		o.put("BX3", 3);
 		o.put("BX2", 4);
 		o.put("BX5", 3);
-		o.put("BX4", 3);
+		o.put("BX4", 3);	
 		Theater t = new Theater(3, 5, "Ouija");
 		
 		BookingClient booker = new BookingClient(o, t);
-		booker.simulate();	  
-	  
+		booker.simulate();
+	
 	}
 	
 	/*
@@ -54,26 +54,16 @@ public class BookingClient {
 	 * @return list of threads used in the simulation,
 	 *         should have as many threads as there are box offices
 	 */
-	public List<Thread> simulate() {
-		
-		for(Map.Entry s : office.entrySet()) {
-			//System.out.println((String) s.getKey() + s.getValue());
-			
+	public List<Thread> simulate() {	
+		for(Map.Entry s : office.entrySet()) { // create a thread for each box office
 			Runnable bo = new BoxOffice(theater, (String) s.getKey(), (Integer) s.getValue());
 			Thread boThread = new Thread(bo);
 			threads.add(boThread);
-			//boThread.start();
+			boThread.start();
 			
 		}
-		for(Thread t : threads) {
-			t.start();
-		}
-		
+
 		return threads;
 	}
-	
-
- 
-
 
 }
